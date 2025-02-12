@@ -13,7 +13,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 // Clone your repository from Git (modify this step to match your repo)
-                git branch: 'main', url: 'https://github.com/Hemalatha0411/jenkins-cicd.git'
+                git branch: 'main', url: 'https://github.com/Hemalatha0411/jenkins-tomcat-uc.git'
             }
         }
 
@@ -41,7 +41,7 @@ pipeline {
                         ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo systemctl stop tomcat"
 
                         echo "Copying new artifact"
-                        ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo cp ${REMOTE_PATH}/maven-artifact-1.0-SNAPSHOT.jar /opt/tomcat/webapps/"
+                        ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo cp ${REMOTE_PATH}/hello-world-1.war /opt/tomcat/webapps/"
 
                         echo "Starting Tomcat service"
                         ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo systemctl start tomcat"
