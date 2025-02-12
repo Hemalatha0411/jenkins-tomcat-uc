@@ -1,0 +1,64 @@
+pipeline {
+    agent any
+
+    environment {
+        // Set your environment variables here
+        ARTIFACT_PATH = "target/hello-world-1.war"
+        REMOTE_HOST = "ubuntu@54.85.198.155"
+        REMOTE_PATH = "/home/ubuntu/"
+        SSH_PRIVATE_KEY = credentials('SSH-Ubuntu') // Jenkins credentials for the private key
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                // Clone your repository from Git (modify this step to match your repo)
+                git branch: 'main', url: 'https://github.com/Hemalatha0411/jenkins-cicd.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Build the Maven artifact
+                script {
+                    sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                script {
+                    // SCP the artifact to the remote EC2 machine
+                    sh """
+                    echo ${SSH_PRIVATE_KEY}
+                    scp -i ${SSH_PRIVATE_KEY} -o StrictHostKeyChecking=no ${ARTIFACT_PATH} ${REMOTE_HOST}:${REMOTE_PATH}
+                    """
+                    
+                    // SSH into EC2 to deploy the artifact
+                    sh """
+                        echo "Stopping Tomcat service"
+                        ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo systemctl stop tomcat"
+
+                        echo "Copying new artifact"
+                        ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo cp ${REMOTE_PATH}/maven-artifact-1.0-SNAPSHOT.jar /opt/tomcat/webapps/"
+
+                        echo "Starting Tomcat service"
+                        ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo systemctl start tomcat"
+
+
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
+}
