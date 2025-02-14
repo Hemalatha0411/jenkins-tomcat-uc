@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Set your environment variables here
-        ARTIFACT_PATH = "target/hello-world-1.war"
+        ARTIFACT_PATH = "/var/lib/jenkins/workspace/Jenkins-tomcat-13/target/hello-world-1.war"
         REMOTE_HOST = "ubuntu@3.91.202.221"
         REMOTE_PATH = "/home/ubuntu"
         SSH_PRIVATE_KEY = credentials('SSH-Ubuntu') // Jenkins credentials for the private key
