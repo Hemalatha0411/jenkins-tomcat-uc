@@ -31,6 +31,7 @@ pipeline {
                 script {
                     // SCP the artifact to the remote EC2 machine
                     sh """
+                    chmod 600 ${SSH_PRIVATE_KEY}
                     scp -i ${SSH_PRIVATE_KEY} -o StrictHostKeyChecking=no ${ARTIFACT_PATH} ${REMOTE_HOST}:${REMOTE_PATH}
                     """
                     
