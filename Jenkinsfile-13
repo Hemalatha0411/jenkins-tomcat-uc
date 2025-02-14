@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Set your environment variables here
         ARTIFACT_PATH = "target/hello-world-1.war"
-        REMOTE_HOST = "ubuntu@54.157.243.81"
+        REMOTE_HOST = "ubuntu@54.196.181.41"
         REMOTE_PATH = "/home/ubuntu"
         SSH_PRIVATE_KEY = credentials('SSH-Ubuntu') // Jenkins credentials for the private key
     }
@@ -31,8 +31,7 @@ pipeline {
                 script {
                     // SCP the artifact to the remote EC2 machine
                     sh """
-                    sudo su
-                    scp -i ${SSH_PRIVATE_KEY} -o StrictHostKeyChecking=no ${ARTIFACT_PATH} ${REMOTE_HOST}:${REMOTE_PATH}
+                    scp -i ${SSH_PRIVATE_KEY} ${ARTIFACT_PATH} ${REMOTE_HOST}:${REMOTE_PATH}
                     """
                     
                     // SSH into EC2 to deploy the artifact
