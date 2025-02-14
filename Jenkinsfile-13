@@ -38,13 +38,13 @@ pipeline {
                     // SSH into EC2 to deploy the artifact
                     sh """
                         echo "Stopping Tomcat service"
-                        ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo systemctl stop tomcat"
+                        ssh -i /var/lib/jenkins/tomcat.pem ${REMOTE_HOST} "sudo systemctl stop tomcat"
 
                         echo "Copying new artifact"
-                        ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo cp /var/lib/jenkins/workspace/Jenkins-tomcat-13/target/hello-world-1.war /opt/tomcat/webapps/"
+                        ssh -i /var/lib/jenkins/tomcat.pem ${REMOTE_HOST} "sudo cp /tmp/hello-world-1.war /opt/tomcat/webapps/"
 
                         echo "Starting Tomcat service"
-                        ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo systemctl start tomcat"
+                        ssh -i /var/lib/jenkins/tomcat.pem ${REMOTE_HOST} "sudo systemctl start tomcat"
 
 
                     """
