@@ -41,7 +41,7 @@ pipeline {
                         ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo systemctl stop tomcat"
 
                         echo "Copying new artifact"
-                        ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo cp ${REMOTE_PATH}/hello-world-1.war /opt/tomcat/webapps/"
+                        ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo cp /var/lib/jenkins/workspace/Jenkins-tomcat-13/target/hello-world-1.war /opt/tomcat/webapps/"
 
                         echo "Starting Tomcat service"
                         ssh -i ${SSH_PRIVATE_KEY} ${REMOTE_HOST} "sudo systemctl start tomcat"
