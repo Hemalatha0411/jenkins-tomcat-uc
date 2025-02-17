@@ -5,5 +5,5 @@
     - name: copying file with playbook
       become: true
       copy:
-        src: /var/lib/jenkins/workspace/Jenkins-tomcat-13/target/hello-world-1.war
+        src: /home/ubuntu/hello-world-1.war
         dest: /opt/tomcat/webapps/
