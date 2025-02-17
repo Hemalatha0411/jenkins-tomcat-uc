@@ -32,8 +32,9 @@ pipeline {
                 script {
                     // Run the Ansible playbook to deploy Tomcat on EC2 instance
                     sh '''
-                    hostname
-                    whoami
+                    git clone https://github.com/Hemalatha0411/jenkins-tomcat-uc.git
+                    cd jenkins-tomcat-uc
+                    mvn clean package
                     ansible-playbook -i inventory.ini playbook.yml
                     '''
                 }
