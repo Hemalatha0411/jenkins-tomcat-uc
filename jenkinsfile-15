@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            agent { label 'Ansible node' }
+            steps {
+                git url: 'https://github.com/Hemalatha0411/jenkins-tomcat-uc.git', branch: 'main'
+            }
+        }
+
+        stage('Build') {
+            agent { label 'Ansible node' }
+            steps {
+                script {
+                    // Install Ansible and dependencies on the Jenkins node if not already installed
+                    sh '''
+                    mvn clean package
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy Tomcat') {
+            agent { label 'Ansible node' }
+            steps {
+                script {
+                    // Run the Ansible playbook to deploy Tomcat on EC2 instance
+                    sh '''
+                    echo "hellow"
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up or send notifications if needed
+            echo 'Deployment Finished'
+        }
+    }
+}
