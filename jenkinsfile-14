@@ -32,7 +32,7 @@ pipeline {
                 script {
                     // Run the Ansible playbook to deploy Tomcat on EC2 instance
                     sh '''
-                    ansible-playbook -i inventory.ini ansible/tomcat-deploy.yml
+                    ansible-playbook -i inventory.ini playbook.yml
                     '''
                 }
             }
