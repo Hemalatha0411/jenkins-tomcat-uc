@@ -33,7 +33,6 @@ pipeline {
                     // Run the Ansible playbook to deploy Tomcat on EC2 instance
                     sh '''
                     hostname
-                    ifconfig
                     whoami
                     ansible-playbook -i inventory.ini playbook.yml
                     '''
