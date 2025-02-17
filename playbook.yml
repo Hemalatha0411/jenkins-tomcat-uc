@@ -1,18 +1,9 @@
----
-- name : sample ansible playbook
-  hosts : all
-  become : yes
-  tasks :
-    - name: Update apt package manager 
-      apt: 
-        update_cache: yes
-        
-    - name : install nginx
-      apt :
-        name : nginx
-        state : present
-
-    - name: start nginx
-      service:
-          name: nginx
-          state: started
+- name: Ansible Copy WAR File Local to Remote
+  hosts: all
+  become: true
+  tasks:
+    - name: copying file with playbook
+      become: true
+      copy:
+        src: /var/lib/jenkins/workspace/Jenkins-tomcat-13/target/hello-world-1.war
+        dest: /opt/tomcat/webapps/
