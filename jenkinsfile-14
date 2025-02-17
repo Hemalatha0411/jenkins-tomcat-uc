@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    environment {
+        ANSIBLE_HOST_KEY_CHECKING = 'false'
+        ANSIBLE_CONFIG = '/etc/ansible/ansible.cfg'
+    }
+
+    stages {
+        stage('Checkout') {
+            agent { label 'Ansible node' }
+            steps {
+                git url: 'https://github.com/Hemalatha0411/jenkins-tomcat-uc.git', branch: 'main'
+            }
+        }
+
+        stage('Install Dependencies') {
+            agent { label 'Ansible node' }
+            steps {
+                script {
+                    // Install Ansible and dependencies on the Jenkins node if not already installed
+                    sh '''
+                    sudo apt update
+                    sudo apt install -y ansible python3
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy Tomcat') {
+            agent { label 'Ansible node' }
+            steps {
+                script {
+                    // Run the Ansible playbook to deploy Tomcat on EC2 instance
+                    sh '''
+                    ansible-playbook -i inventory.ini ansible/tomcat-deploy.yml
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up or send notifications if needed
+            echo 'Deployment Finished'
+        }
+    }
+}
