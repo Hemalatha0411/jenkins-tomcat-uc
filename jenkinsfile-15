@@ -18,7 +18,7 @@ pipeline {
                     cd /home/ubuntu
                     git clone https://github.com/Hemalatha0411/jenkins-tomcat-uc.git
                     cd jenkins-tomcat-uc
-                    mvn clean pack
+                    mvn clean package
                     '''
                 }
             }
