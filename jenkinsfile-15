@@ -16,6 +16,7 @@ pipeline {
                     // Install Ansible and dependencies on the Jenkins node if not already installed
                     sh '''
                     cd /home/ubuntu
+                    rm -r jenkins-tomcat-uc
                     git clone https://github.com/Hemalatha0411/jenkins-tomcat-uc.git
                     cd jenkins-tomcat-uc
                     mvn clean package
