@@ -3,14 +3,14 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            agent { label 'Ansible node' }
+            agent { label 'Docker node' }
             steps {
                 git url: 'https://github.com/Hemalatha0411/jenkins-tomcat-uc.git', branch: 'main'
             }
         }
 
         stage('Install Dependencies') {
-            agent { label 'Ansible node' }
+            agent { label 'Docker node' }
             steps {
                 script {
                     // Install Ansible and dependencies on the Jenkins node if not already installed
@@ -25,7 +25,7 @@ pipeline {
         }
 
         stage('Build and Push Docker Image') {
-            agent { label 'Ansible node' }
+            agent { label 'Docker node' }
             environment {
                 DOCKER_IMAGE = "hemalathamaha98/tomcat-app"
                 REGISTRY_CREDENTIALS = credentials('docker-cred')
